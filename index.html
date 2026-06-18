@@ -1,0 +1,2215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rieper Capital — Consórcios com Método</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;800&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    section { display: block; }
+
+    html { overflow-x: hidden; }
+
+    body {
+      background: #fff;
+      color: #fff;
+      font-family: 'Figtree', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ──
+       Logo: x=280, y=40, w=312, h=77
+       Links: y=62 → 22px abaixo do topo da logo
+       CTA: x=1364, y=46, w=271, h=64 → 6px abaixo do topo da logo */
+    #navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      padding: 40px max(24px, calc((100% - 1360px) / 2)) 0;
+      z-index: 9999;
+      transition: background 0.3s, padding 0.3s;
+    }
+    #navbar.scrolled {
+      background: #000;
+      padding-top: 16px;
+      padding-bottom: 16px;
+      align-items: center;
+    }
+    #navbar.scrolled #logo {
+      width: 200px;
+      height: 50px;
+    }
+    #navbar.scrolled #logo img {
+      width: 200px;
+      height: 50px;
+    }
+    #navbar.scrolled #nav-links {
+      margin-top: 0;
+    }
+    #navbar.scrolled #nav-cta {
+      margin-top: 0;
+      height: 48px;
+    }
+
+    #logo {
+      flex-shrink: 0;
+      display: block;
+      text-decoration: none;
+      width: 312px;
+      height: 77px;
+    }
+    #logo img {
+      width: 312px;
+      height: 77px;
+      display: block;
+    }
+
+    #nav-links {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 56px;
+      margin-top: 22px;
+    }
+    #nav-links a {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 32px;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.2s;
+    }
+    #nav-links a.active { color: #C5A059; }
+    #nav-links a:hover  { color: #C5A059; }
+
+    /* CTA: y=46 → margin-top 6px em relação ao topo da navbar (padding-top=40) */
+    #nav-cta {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 271px;
+      height: 64px;
+      margin-top: 6px;
+      border: 1px solid #C5A059;
+      text-decoration: none;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    #nav-cta:hover { background: rgba(197,160,89,0.08); }
+    #nav-cta span {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      color: #fff;
+    }
+
+    /* ── HERO ──
+       Frame: 1920×850px
+       Eyebrow: y=203
+       H1: y=256, w=880
+       Subtitle: y=388, w=567
+       Btn row: y=480 */
+    #hero {
+      position: relative;
+      width: 100%;
+      height: 850px;
+      background: #000;
+      z-index: 0;
+    }
+
+    #hero-content {
+      position: absolute;
+      top: 203px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    #hero-eyebrow {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      letter-spacing: 2.24px;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 21px;
+    }
+
+    /* H1: y=256, eyebrow bottom = 203+32+21 = 256 ✓ */
+    #hero-h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 36px;
+      line-height: 50px;
+      letter-spacing: -1.8px;
+      color: #fff;
+      text-align: center;
+      width: 880px;
+      margin-bottom: 36px;
+    }
+    #hero-h1 em {
+      font-style: italic;
+      color: #C5A059;
+      letter-spacing: -1.8px;
+    }
+
+    /* Subtitle: y=388, h1 bottom = 256+100+36 = 392 → ajuste fino via margin */
+    #hero-subtitle {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 26px;
+      color: rgba(255,255,255,0.75);
+      text-align: center;
+      width: 567px;
+      margin-bottom: 40px;
+    }
+
+    /* Btns: y=480, subtitle bottom = 388+52+40 = 480 ✓ */
+    #hero-buttons {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    /* Btn gold: x=620, w=345, h=64 */
+    .btn-gold {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 345px;
+      height: 64px;
+      background: #C5A059;
+      text-decoration: none;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .btn-gold:hover { background: #AD8332; }
+    .btn-gold span {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      color: #000;
+    }
+
+    /* Btn outline: x=997, w=304, h=64 */
+    .btn-outline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 304px;
+      height: 64px;
+      border: 1px solid #C5A059;
+      text-decoration: none;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .btn-outline:hover { background: rgba(197,160,89,0.08); }
+    .btn-outline span {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      color: #fff;
+    }
+
+    #hamburger { display: none; }
+    #mobile-menu { display: none; }
+
+    /* ── MOBILE (≤ 768px) ──
+       Base: 390px (iPhone 14). Padding lateral: 24px cada lado → área útil 342px. */
+    @media (max-width: 768px) {
+
+      /* Navbar: logo à esquerda + hamburger à direita */
+      #navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 24px 24px;
+        align-items: center;
+        margin-top: 0;
+        background: #000;
+        z-index: 9999;
+      }
+
+      #logo {
+        width: 230px;
+        height: 57px;
+      }
+      #logo img {
+        width: 230px;
+        height: 57px;
+      }
+
+      #nav-links { display: none; }
+
+      #nav-cta {
+        display: none;
+      }
+
+      #hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        margin-left: auto;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        width: 36px;
+        height: 36px;
+      }
+      #hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: #fff;
+        transition: transform 0.3s, opacity 0.3s;
+        transform-origin: center;
+      }
+      #hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      #hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+      #hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+      #mobile-menu {
+        display: block;
+        position: fixed;
+        top: 88px;
+        left: 0;
+        width: 100%;
+        background: #0a0a0a;
+        padding: 0 24px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), padding 0.35s;
+        z-index: 9998;
+      }
+      #mobile-menu.open {
+        max-height: 400px;
+        padding: 24px 24px 32px;
+      }
+      #mobile-menu-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 24px;
+      }
+      #mobile-menu-links a {
+        font-family: 'Figtree', sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 52px;
+        color: #fff;
+        text-decoration: none;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        transition: color 0.2s;
+      }
+      #mobile-menu-links a:first-child { border-top: none; }
+      #mobile-menu-links a:hover { color: #C5A059; }
+      .mobile-menu-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 52px;
+        background: #C5A059;
+        font-family: 'Figtree', sans-serif;
+        font-weight: 800;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        color: #000;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .mobile-menu-cta:hover { background: #AD8332; }
+
+      /* Hero: fluxo normal, sem position absolute */
+      #hero {
+        height: auto;
+        padding-top: 88px;
+      }
+
+      #hero-content {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        padding: 48px 24px 96px;
+        align-items: center;
+      }
+
+      #hero-eyebrow {
+        font-size: 11px;
+        line-height: 20px;
+        letter-spacing: 1.54px;
+        margin-bottom: 16px;
+      }
+
+      #hero-h1 {
+        width: 342px;
+        font-size: 28px;
+        line-height: 38px;
+        letter-spacing: -0.84px;
+        margin-bottom: 20px;
+      }
+
+      #hero-subtitle {
+        width: 342px;
+        font-size: 15px;
+        line-height: 22px;
+        margin-bottom: 32px;
+      }
+
+      #hero-buttons {
+        flex-direction: column;
+        gap: 12px;
+        width: 342px;
+      }
+
+      .btn-gold {
+        width: 342px;
+        height: 56px;
+      }
+      .btn-gold span { font-size: 13px; }
+
+      .btn-outline {
+        width: 342px;
+        height: 56px;
+      }
+      .btn-outline span { font-size: 13px; }
+    }
+
+    /* ── SEÇÃO 2: FOTO + STATS ──
+       Foto: y=625 dentro do hero (h=850) → overlap de 225px sobre o hero.
+       Seção branca começa em y=850 (fim do hero).
+       A foto sobe 225px com margin-top negativo.
+       Stats: ícones y=1133 → 1133-850=283px abaixo do início da seção branca.
+       padding-top = 225px (foto sobe) + não há espaço extra antes da foto.
+       Stats: após foto (449px) + 59px gap = 508px. Padding-top na seção: 0 (foto sobe).
+       Conta: seção inicia em y=850. foto começa em y=625 → margin-top: -225px.
+       Padding lateral: 280px. Stats padding-bottom: 80px. */
+    #section2 {
+      background: #fff;
+      padding: 0 max(24px, calc((100% - 1360px) / 2)) 80px;
+    }
+
+    #section2-photo {
+      width: 100%;
+      height: 449px;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: -225px;
+      margin-bottom: 59px;
+      position: relative;
+      z-index: 1;
+    }
+    #section2-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center -2.82%;
+      display: block;
+    }
+
+    /* Stats row: 4 colunas
+       Ícones x=408,755,1112,1468 (abs). Offset seção=280px.
+       Centros relativos ao container 1360px:
+       col1 centro=(408-280)+16=144px, col2=491px, col3=848px, col4=1204px */
+    #stats-row {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .stat-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .stat-icon {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 20px;
+    }
+
+    .stat-title {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 32px;
+      letter-spacing: -1px;
+      color: #000;
+      text-align: center;
+      margin-bottom: 0;
+    }
+
+    .stat-sub {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: rgba(44,62,47,1);
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      #section2 {
+        padding: 0 24px 32px;
+      }
+      #section2-photo {
+        width: 100%;
+        height: 220px;
+        margin-top: -60px;
+        margin-bottom: 40px;
+      }
+      #section2-photo img {
+        width: 100%;
+        height: 220px;
+      }
+      #stats-row {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 40px 0;
+      }
+      .stat-col {
+        width: 50%;
+        align-items: center;
+      }
+    }
+
+    /* ── SEÇÃO 3: BRASILEIROS NO MUNDO (globo cobe) ── */
+    #section3 {
+      background: #fff;
+      padding: 59px 24px 0;
+    }
+
+    #section3-inner {
+      position: relative;
+      width: 1360px;
+      max-width: 100%;
+      height: 470px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #000;
+      margin: 0 auto;
+      transform: translateZ(0);
+      outline: 1px solid transparent;
+    }
+
+    #cobe-canvas {
+      position: absolute;
+      top: -70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1080px;
+      height: 1080px;
+    }
+
+    #section3-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.05) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.3) 100%);
+    }
+
+    #section3-content {
+      position: absolute;
+      top: 118px;
+      left: 89px;
+      width: 697px;
+    }
+
+    #section3-eyebrow {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      letter-spacing: 2.24px;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 21px;
+    }
+
+    #section3-h2 {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 48px;
+      letter-spacing: -1.6px;
+      color: #fff;
+      margin-bottom: 0;
+    }
+    #section3-h2 em { font-style: italic; color: #C5A059; }
+
+    #section3-sub {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 26px;
+      color: rgba(255,255,255,0.75);
+      width: 514px;
+      margin-top: 32px;
+    }
+    #section3-sub strong { font-weight: 700; color: #fff; }
+
+    #section3-countries {
+      position: absolute;
+      top: 112px;
+      left: 1020px;
+      width: 246px;
+      height: 256px;
+      overflow: hidden;
+    }
+
+    #countries-track {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      will-change: transform;
+    }
+
+    @keyframes country-in {
+      from { opacity: 0; transform: translateX(32px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes country-out {
+      from { opacity: 1; transform: translateX(0); }
+      to   { opacity: 0; transform: translateX(-32px); }
+    }
+
+    .country-name {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 64px;
+      letter-spacing: -1.6px;
+      color: #fff;
+      white-space: nowrap;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    .country-name.entering {
+      animation: country-in 0.45s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+    }
+
+    .country-name.exiting {
+      animation: country-out 0.32s cubic-bezier(0.55,0,1,0.45) forwards;
+    }
+
+    #section3-fade-right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 130px;
+      height: 100%;
+      background: linear-gradient(to left, rgba(0,0,0,0.9) 0%, transparent 100%);
+    }
+
+    /* ── SEÇÃO 4: O QUE DESEJA CONSTRUIR? ── */
+    #section4 {
+      background: #fff;
+      padding: 120px 0 0;
+    }
+
+    #section4-header {
+      text-align: center;
+      margin-bottom: 54px;
+    }
+
+    #section4-title {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 48px;
+      letter-spacing: -1.6px;
+      color: #000;
+      margin-bottom: 24px;
+    }
+
+    #section4-sub {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 26px;
+      color: rgba(0,0,0,0.75);
+    }
+
+    /* carrossel */
+    #section4-track-wrap {
+      position: relative;
+    }
+
+    #section4-track {
+      display: flex;
+      gap: 30px;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+      padding: 0;
+    }
+
+    .s4-card {
+      flex-shrink: 0;
+      width: 420px;
+      height: 280px;
+      border-radius: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .s4-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .s4-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(44,62,47,0) 0%, rgba(0,0,0,1) 100%);
+      opacity: 0.75;
+    }
+
+    .s4-card-label {
+      position: absolute;
+      bottom: 24px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 28px;
+      color: #fff;
+      padding: 0 16px;
+    }
+
+    /* setas */
+    .s4-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 35px;
+      height: 35px;
+      background: #000;
+      border: none;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: opacity 0.2s;
+    }
+    .s4-arrow:hover { opacity: 0.75; }
+    .s4-arrow svg { width: 16px; height: 16px; }
+    #s4-prev { left: 30px; }
+    #s4-next { right: 30px; }
+
+    @media (max-width: 768px) {
+      #section4 {
+        padding: 56px 0 40px;
+        overflow: hidden;
+      }
+      #section4-title {
+        font-size: 24px;
+        line-height: 34px;
+        letter-spacing: -0.72px;
+        padding: 0 24px;
+      }
+      #section4-sub {
+        font-size: 15px;
+        line-height: 22px;
+        padding: 0 24px;
+      }
+      #section4-track-wrap {
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+      }
+      #section4-track {
+        gap: 0;
+        padding: 0;
+      }
+      .s4-card {
+        height: 220px;
+        flex-shrink: 0;
+      }
+      .s4-card-label {
+        font-size: 16px;
+        line-height: 22px;
+        bottom: 16px;
+      }
+      #s4-prev { left: 12px; }
+      #s4-next { right: 12px; }
+    }
+
+    @media (max-width: 768px) {
+      #section3 {
+        padding: 20px 24px 0;
+      }
+      #section3-inner {
+        height: auto;
+        min-height: 480px;
+        border-radius: 12px;
+      }
+      #section3-content {
+        top: 40px;
+        left: 24px;
+        width: 294px;
+      }
+      #section3-eyebrow {
+        font-size: 11px;
+        letter-spacing: 1.54px;
+        margin-bottom: 12px;
+      }
+      #section3-h2 {
+        font-size: 22px;
+        line-height: 32px;
+        letter-spacing: -0.66px;
+      }
+      #section3-inner {
+        height: auto;
+        min-height: 0;
+        padding-bottom: 40px;
+      }
+      #section3-content {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        padding: 40px 24px 0;
+      }
+      #section3-sub {
+        width: 100%;
+        font-size: 14px;
+        line-height: 22px;
+        margin-top: 20px;
+        margin-bottom: 40px;
+      }
+      #section3-countries {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        width: 200px;
+        height: 160px;
+        margin-left: 24px;
+      }
+      .country-name {
+        font-size: 18px;
+        line-height: 40px;
+      }
+      #section3-inner {
+        padding-bottom: 40px;
+      }
+      #cobe-canvas {
+        top: -60px;
+        bottom: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1080px;
+        height: 1080px;
+        opacity: 0.35;
+      }
+    }
+
+    /* ── SEÇÃO 5: NOSSO MÉTODO ── */
+    #section5 {
+      background: #fff;
+      padding: 120px 0;
+    }
+
+    #section5-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 max(24px, calc((100% - 1360px) / 2));
+    }
+
+    #section5-text {
+      flex: 0 0 563px;
+    }
+
+    #section5-eyebrow {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      letter-spacing: 2.24px;
+      color: #C5A059;
+      margin-bottom: 24px;
+    }
+
+    #section5-title {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 48px;
+      letter-spacing: -1.6px;
+      color: #000;
+      margin-bottom: 48px;
+    }
+
+    #section5-title em {
+      font-style: italic;
+      color: #C5A059;
+    }
+
+    #section5-body {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 26px;
+      color: rgba(0,0,0,0.75);
+      margin-bottom: 48px;
+    }
+
+    #section5-body strong {
+      font-weight: 700;
+      color: #000;
+    }
+
+    #section5-btn {
+      display: inline-block;
+      background: #C5A059;
+      color: #000;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      padding: 16px 24px;
+      text-decoration: none;
+      letter-spacing: 0;
+    }
+
+    #section5-image {
+      flex: 0 0 600px;
+      max-width: 600px;
+    }
+
+    #section5-image img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+      border-radius: 16px;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      #section5 {
+        padding: 40px 0 64px;
+      }
+      #section5-inner {
+        flex-direction: column;
+        gap: 40px;
+        padding: 0 24px;
+      }
+      #section5-text {
+        flex: none;
+        width: 100%;
+      }
+      #section5-title {
+        font-size: 26px;
+        line-height: 38px;
+        letter-spacing: -0.78px;
+        margin-bottom: 32px;
+      }
+      #section5-body {
+        font-size: 16px;
+        margin-bottom: 32px;
+      }
+      #section5-btn {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+      }
+      #section5-image {
+        flex: none;
+        width: 100%;
+      }
+      #section5-image img {
+        width: 100%;
+        height: 280px;
+        border-radius: 12px;
+      }
+    }
+    /* ── SEÇÃO 6: CASES ── */
+    #section6 {
+      background: #000;
+      padding: 120px 0 100px;
+    }
+
+    #section6-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    #section6-eyebrow {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      letter-spacing: 2.24px;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 24px;
+    }
+
+    #section6-title {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 48px;
+      letter-spacing: -1.6px;
+      color: #fff;
+    }
+
+    #section6-title em {
+      font-style: italic;
+      color: #C5A059;
+    }
+
+    #section6-cards {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 80px;
+      padding: 0 max(24px, calc((100% - 1360px) / 2));
+    }
+
+    .s6-card {
+      position: relative;
+      width: 277px;
+      height: 493px;
+      overflow: hidden;
+      flex-shrink: 0;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .s6-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .s6-card:hover img { transform: scale(1.04); }
+
+    .s6-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.75) 100%);
+      transition: opacity 0.3s;
+    }
+
+    .s6-card:hover .s6-card-overlay { opacity: 0.85; }
+
+    .s6-card-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+    }
+
+    .s6-card:hover .s6-card-play {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .s6-card-play svg { width: 50px; height: 50px; }
+
+    #section6-footer {
+      display: flex;
+      justify-content: center;
+    }
+
+    #section6-btn {
+      display: inline-flex;
+      align-items: center;
+      background: #C5A059;
+      color: #000;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      padding: 16px 40px;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: opacity 0.2s;
+    }
+
+    #section6-btn:hover { opacity: 0.85; }
+    #section6-btn:active { opacity: 0.7; }
+
+    /* ── Inline YouTube iframe no card ── */
+    .s6-card iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      z-index: 2;
+    }
+
+    @media (max-width: 768px) {
+      #section6 {
+        padding: 64px 0 64px;
+      }
+      #section6-title {
+        font-size: 24px;
+        line-height: 36px;
+        letter-spacing: -0.72px;
+        padding: 0 24px;
+      }
+      #section6-eyebrow { padding: 0 24px; }
+      #section6-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 0 24px;
+        margin-bottom: 48px;
+      }
+      .s6-card {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 9/16;
+        flex-shrink: unset;
+      }
+      #section6-btn {
+        width: calc(100% - 48px);
+        justify-content: center;
+      }
+    }
+
+    /* ── SEÇÃO 7: INDEPENDÊNCIA ESTRATÉGICA ── */
+    #section7 {
+      background: #fff;
+      padding: 120px 0 90px;
+    }
+
+    #section7-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    #section7-eyebrow {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      letter-spacing: 2.24px;
+      color: #C5A059;
+      margin-bottom: 24px;
+    }
+
+    #section7-title {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 48px;
+      letter-spacing: -1.6px;
+      color: #000;
+      margin-bottom: 24px;
+    }
+
+    #section7-body {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 26px;
+      color: rgba(0,0,0,0.75);
+      max-width: 1039px;
+      margin: 0 auto;
+    }
+
+    #section7-body strong {
+      font-weight: 700;
+      color: #000;
+    }
+
+    #section7-logos {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      align-items: center;
+    }
+
+    .s7-logo-row {
+      display: flex;
+      justify-content: center;
+      gap: 90px;
+      align-items: center;
+    }
+
+    .s7-logo {
+      width: 200px;
+      height: 125px;
+      object-fit: contain;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      #section7 {
+        padding: 64px 0;
+      }
+      #section7-title {
+        font-size: 24px;
+        line-height: 36px;
+        letter-spacing: -0.72px;
+        padding: 0 24px;
+        margin-bottom: 16px;
+      }
+      #section7-eyebrow {
+        padding: 0 24px;
+      }
+      #section7-body {
+        font-size: 16px;
+        padding: 0 24px;
+      }
+      #section7-header {
+        margin-bottom: 32px;
+      }
+      #section7-logos {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 16px;
+        padding: 0 24px;
+      }
+      .s7-logo-row {
+        display: contents;
+      }
+      .s7-logo {
+        width: 100%;
+        height: 80px;
+      }
+    }
+
+    /* ── SECTION 8 — EVENTOS ── */
+    /* card x=280, w=1360 dentro de canvas 1920px → margem = (1920-1360)/2 = 280px
+       padding interno: texto esquerda x=360, card x=280 → 80px
+       texto direita x=1144, card x=280 → gap esquerda=864px, ou seja left col=542px + gap=262px
+       Gap real entre colunas = 1144 - (360+542) = 242px
+       eyebrow y=5328, card y=5069 → eyebrow a 259px do topo
+       titulo y=5381, eyebrow h=32 → gap eyebrow→titulo = 5381-5360 = 21px
+       texto direita y=5355, card y=5069 → 286px do topo
+       botão w=235, h=64px                                                        */
+    #section8 {
+      background: #fff;
+      padding: 0 max(24px, calc((100% - 1360px) / 2));
+    }
+
+    #section8-card {
+      position: relative;
+      height: 520px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #000;
+    }
+
+    /* Foto cobre todo o card.
+       rect9 está em x=1640 (borda direita do canvas), espelhada horizontalmente.
+       imageTransform scale Y=0.625, offset Y≈0 → crop do topo da foto. */
+    #section8-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left top;
+      transform: scaleX(-1);
+    }
+
+    /* Gradiente vertical: topo rgba(0,0,0,0.4) → base rgba(0,0,0,0.9) */
+    #section8-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 100%);
+    }
+
+    /* Conteúdo alinhado ao fundo com 64px de padding-bottom
+       Eyebrow: relTop=259, relBottom=64
+       Botão: relBottom=64 */
+    #section8-inner {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 80px 64px;
+      gap: 242px;
+    }
+
+    #section8-left {
+      flex: 0 0 542px;
+    }
+
+    #section8-eyebrow {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      letter-spacing: 2.24px;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 21px;
+    }
+
+    #section8-title {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 48px;
+      letter-spacing: -1.6px;
+      color: #fff;
+    }
+
+    #section8-title em {
+      font-style: italic;
+      color: #C5A059;
+    }
+
+    #section8-right {
+      flex: 0 0 416px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 28px;
+    }
+
+    #section8-body {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 26px;
+      color: rgba(255,255,255,0.75);
+    }
+
+    #section8-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #C5A059;
+      color: #000;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      padding: 16px 24px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    #section8-cta:hover { background: #AD8332; }
+    #section8-cta:focus-visible { outline: 2px solid #C5A059; outline-offset: 2px; }
+    #section8-cta:active { background: #8a6620; }
+
+    @media (max-width: 768px) {
+      #section8 {
+        padding: 0 24px;
+      }
+
+      #section8-card {
+        height: auto;
+        border-radius: 12px;
+      }
+
+      #section8-bg {
+        object-position: center center;
+      }
+
+      #section8-overlay {
+        background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
+      }
+
+      #section8-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+        padding: 48px 32px 48px;
+        height: auto;
+        align-items: flex-start;
+      }
+
+      #section8-left {
+        flex: none;
+        width: 100%;
+      }
+
+      #section8-title {
+        font-size: 24px;
+        line-height: 36px;
+        letter-spacing: -0.72px;
+      }
+
+      #section8-right {
+        flex: none;
+        width: 100%;
+        gap: 24px;
+        padding-bottom: 0;
+      }
+
+      #section8-body {
+        font-size: 16px;
+        line-height: 24px;
+      }
+
+      #section8-cta {
+        width: 342px;
+        max-width: 100%;
+        justify-content: center;
+        padding: 12px 24px;
+        font-size: 13px;
+      }
+    }
+
+    /* ── SECTION 10 — CTA BANNER ── */
+    /* Rectangle 35: y=6385, h=484, gradiente gold diagonal
+       Título: w=972, centrado, relY=142
+       Botão: w=390, h=64, centrado, relY=278, fundo preto */
+    #section10 {
+      background: linear-gradient(141deg, #C5A059 24.41%, #AD8332 82.24%);
+      padding: 142px max(24px, calc((100% - 972px) / 2)) 142px;
+      text-align: center;
+      min-height: 484px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    #section10-title {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 48px;
+      letter-spacing: -1.6px;
+      color: #000;
+      margin-bottom: 40px;
+    }
+
+    #section10-title strong {
+      font-weight: 700;
+      font-style: italic;
+    }
+
+    #section10-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      color: #fff;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      padding: 16px 24px;
+      width: 390px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    #section10-cta:hover { background: #1a1a1a; }
+    #section10-cta:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+    #section10-cta:active { background: #333; }
+
+    /* ── FOOTER ── */
+    /* Rectangle 36: y=6869, h=356, fundo #000
+       Logo: x=280, relY=64
+       Nav: x=785, relY=64, gap=40px entre links
+       Contato ícone: x=1037, relY=66, 48×48 círculo branco 5%
+       Contato texto: x=1111, relY=64
+       Social: x=1446/1519/1592, relY=64, gap=73px */
+    #footer {
+      background: #000;
+      padding: 64px max(24px, calc((100% - 1360px) / 2));
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    #footer-logo {
+      flex: 0 0 312px;
+    }
+
+    #footer-logo img {
+      width: 312px;
+      height: 77px;
+      object-fit: contain;
+    }
+
+    #footer-nav {
+      flex: 0 0 107px;
+      margin-left: 193px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    #footer-nav a {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 26px;
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    #footer-nav a:hover { color: #C5A059; }
+
+    #footer-contact {
+      flex: 0 0 auto;
+      margin-left: 145px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .footer-contact-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .footer-contact-icon img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .footer-contact-text {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 26px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    #footer-social {
+      flex: 0 0 auto;
+      margin-left: 96px;
+      display: flex;
+      flex-direction: row;
+      gap: 25px;
+      align-items: flex-start;
+    }
+
+    .footer-social-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .footer-social-icon:hover { background: rgba(255,255,255,0.12); }
+
+    .footer-social-icon img {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      #section10 {
+        padding: 64px 24px;
+        min-height: auto;
+      }
+      #section10-title {
+        font-size: 22px;
+        line-height: 34px;
+        letter-spacing: -0.66px;
+        margin-bottom: 32px;
+      }
+      #section10-cta {
+        width: 342px;
+        max-width: 100%;
+        font-size: 13px;
+        padding: 12px 24px;
+      }
+      #footer {
+        flex-direction: column;
+        gap: 40px;
+        padding: 48px 24px;
+      }
+      #footer-logo { flex: none; }
+      #footer-nav { margin-left: 0; }
+      #footer-contact { margin-left: 0; flex: none; width: 100%; }
+      #footer-social { margin-left: 0; }
+    }
+
+    /* ── SECTION 9 — BRASILEIROS NO EXTERIOR ── */
+    /* Bloco: fundo branco, y=5589→6385, h=796px no canvas (1920px)
+       Conteúdo esquerda: x=280, w=597px
+       Eyebrow relY=209, título relY=264 h=96, body relY=384 h=78, botão relY=502 h=64
+       Union (mapa): x=860, relY=120, w=1013, h=536 */
+    /* Bloco h=796px, eyebrow relY=209 → padding-top=209px
+       União mapa: relY=120 do topo, x=860 no canvas de 1920 → right side
+       A seção tem padding-bottom = 796-502-64 = 230px */
+    #section9 {
+      background: #fff;
+      position: relative;
+      padding: 209px max(24px, calc((100% - 1360px) / 2)) 230px;
+      overflow: hidden;
+    }
+
+    /* Union x=860, canvas=1920 → da borda direita: 1920-860-1013=47px → right=-47px
+       Union y=5709, seção y=5589 → relY=120px do topo da seção */
+    #section9-map {
+      position: absolute;
+      right: -47px;
+      top: 120px;
+      width: 1013px;
+      height: 536px;
+      pointer-events: none;
+    }
+
+    #section9-content {
+      position: relative;
+      z-index: 1;
+      max-width: 597px;
+    }
+
+    #section9-eyebrow {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      letter-spacing: 2.24px;
+      color: #C5A059;
+      margin-bottom: 24px;
+    }
+
+    #section9-title {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 48px;
+      letter-spacing: -1.6px;
+      color: #000;
+      margin-bottom: 32px;
+    }
+
+    #section9-title em {
+      font-style: italic;
+      color: #C5A059;
+    }
+
+    #section9-body {
+      font-family: 'Figtree', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 26px;
+      color: rgba(0,0,0,0.75);
+      margin-bottom: 40px;
+    }
+
+    #section9-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #C5A059;
+      color: #000;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 32px;
+      padding: 16px 24px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    #section9-cta:hover { background: #AD8332; }
+    #section9-cta:focus-visible { outline: 2px solid #C5A059; outline-offset: 2px; }
+    #section9-cta:active { background: #8a6620; }
+
+    @media (max-width: 768px) {
+      #section9 {
+        padding: 40px 0 64px;
+        overflow: hidden;
+      }
+      #section9-map {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: 100%;
+        height: auto;
+        display: block;
+        margin-bottom: -48px;
+      }
+      #section9-content {
+        position: relative;
+        z-index: 1;
+        padding: 0 24px;
+      }
+      #section9-title {
+        font-size: 24px;
+        line-height: 36px;
+        letter-spacing: -0.72px;
+        margin-bottom: 24px;
+      }
+      #section9-body {
+        font-size: 16px;
+        margin-bottom: 32px;
+      }
+      #section9-cta {
+        width: 342px;
+        max-width: 100%;
+        font-size: 13px;
+        padding: 12px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="#" id="logo">
+      <img src="brand_assets/logo.svg" alt="Rieper Capital — Consórcios com Método">
+    </a>
+
+    <div id="nav-links">
+      <a href="#" class="active">Início</a>
+      <a href="#">Sobre nós</a>
+      <a href="#">Nosso Método</a>
+      <a href="#">Cases</a>
+      <a href="#">Eventos</a>
+    </div>
+
+    <a href="#" id="nav-cta">
+      <span>FALE COM UM ESPECIALISTA</span>
+    </a>
+
+    <button id="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" aria-hidden="true">
+    <div id="mobile-menu-links">
+      <a href="#">Início</a>
+      <a href="#">Sobre nós</a>
+      <a href="#">Nosso Método</a>
+      <a href="#">Cases</a>
+      <a href="#">Eventos</a>
+    </div>
+    <a href="#" class="mobile-menu-cta">FALE COM UM ESPECIALISTA</a>
+  </div>
+
+  <section id="hero">
+
+    <div id="hero-content">
+      <p id="hero-eyebrow">MÉTODO MAESTRIA PATRIMONIAL</p>
+      <h1 id="hero-h1">CONSÓRCIOS COM MÉTODO PARA <em>CONSTRUIR E ALAVANCAR</em> O SEU PATRIMÔNIO</h1>
+      <p id="hero-subtitle">Construímos riqueza para famílias, investidores e empresários no mundo todo, através de estratégia, método e visão de longo prazo.</p>
+      <div id="hero-buttons">
+        <a href="#" class="btn-gold"><span>QUERO CONSTRUIR MEU PATRIMÔNIO</span></a>
+        <a href="#" class="btn-outline"><span>CONHEÇA O MÉTODO MAESTRIA</span></a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── SEÇÃO 2: FOTO + STATS ── -->
+  <section id="section2">
+
+    <div id="section2-photo">
+      <img src="brand_assets/photo-team.webp" alt="Rieper Capital — Equipe">
+    </div>
+
+    <div id="stats-row">
+      <div class="stat-col">
+        <img class="stat-icon" src="brand_assets/icon-globe.svg" alt="">
+        <p class="stat-title">+15 países</p>
+        <p class="stat-sub">investidores globais</p>
+      </div>
+      <div class="stat-col">
+        <img class="stat-icon" src="brand_assets/icon-medal.svg" alt="">
+        <p class="stat-title">Servopa</p>
+        <p class="stat-sub">Certificação Faixa Preta</p>
+      </div>
+      <div class="stat-col">
+        <img class="stat-icon" src="brand_assets/icon-diamond.svg" alt="">
+        <p class="stat-title">Rodobens</p>
+        <p class="stat-sub">Certificação Diamante</p>
+      </div>
+      <div class="stat-col">
+        <img class="stat-icon" src="brand_assets/icon-headset.svg" alt="">
+        <p class="stat-title">Atendimento</p>
+        <p class="stat-sub">nacional e internacional</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── SEÇÃO 3: BRASILEIROS EM TODO O MUNDO ── -->
+  <section id="section3">
+    <div id="section3-inner">
+      <canvas id="cobe-canvas"></canvas>
+      <div id="section3-overlay"></div>
+
+      <div id="section3-content">
+        <p id="section3-eyebrow">PRESENÇA GLOBAL</p>
+        <h2 id="section3-h2">BRASILEIROS EM TODO O MUNDO <em>CONSTROEM PATRIMÔNIO</em> COM A RIEPER</h2>
+        <p id="section3-sub">Atendemos investidores em <strong>mais de 15 países</strong>, mantendo o mesmo compromisso que acompanha a Rieper desde 1987.</p>
+      </div>
+
+      <div id="section3-countries">
+        <div id="countries-track"></div>
+      </div>
+
+      <div id="section3-fade-right"></div>
+    </div>
+  </section>
+
+  <!-- ── SEÇÃO 4: O QUE DESEJA CONSTRUIR? ── -->
+  <section id="section4">
+    <div id="section4-header">
+      <h2 id="section4-title">QUE PATRIMÔNIO VOCÊ QUER CONSTRUIR?</h2>
+      <p id="section4-sub">Com o Método Maestria Patrimonial, transformamos capital em patrimônio, segurança e legado familiar.</p>
+    </div>
+    <div id="section4-track-wrap">
+      <button class="s4-arrow" id="s4-prev" aria-label="Anterior">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9L11 14" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div id="section4-track">
+        <div class="s4-card">
+          <img src="brand_assets/card-previsibilidade.webp" alt="Investir com previsibilidade">
+          <div class="s4-card-overlay"></div>
+          <p class="s4-card-label">Investir com previsibilidade</p>
+        </div>
+        <div class="s4-card">
+          <img src="brand_assets/card-patrimonio.webp" alt="Construir patrimônio">
+          <div class="s4-card-overlay"></div>
+          <p class="s4-card-label">Construir patrimônio</p>
+        </div>
+        <div class="s4-card">
+          <img src="brand_assets/card-imoveis.webp" alt="Construir imóveis">
+          <div class="s4-card-overlay"></div>
+          <p class="s4-card-label">Construir imóveis</p>
+        </div>
+        <div class="s4-card">
+          <img src="brand_assets/card-empresas.webp" alt="Expandir empresas">
+          <div class="s4-card-overlay"></div>
+          <p class="s4-card-label">Expandir empresas</p>
+        </div>
+        <div class="s4-card">
+          <img src="brand_assets/card-exterior.webp" alt="Investir do exterior">
+          <div class="s4-card-overlay"></div>
+          <p class="s4-card-label">Investir do exterior</p>
+        </div>
+      </div>
+      <button class="s4-arrow" id="s4-next" aria-label="Próximo">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M7 4L12 9L7 14" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ── SEÇÃO 5: NOSSO MÉTODO ── -->
+  <section id="section5">
+    <div id="section5-inner">
+      <div id="section5-text">
+        <p id="section5-eyebrow">NOSSO MÉTODO</p>
+        <h2 id="section5-title">O CONSÓRCIO É A FERRAMENTA. A <em>ESTRATÉGIA</em> É O NOSSO COMPROMISSO COM VOCÊ.</h2>
+        <p id="section5-body">O <strong>Método Maestria</strong> analisa seu objetivo, sua capacidade financeira, o prazo ideal, o tipo de bem desejado e a melhor forma de usar o consórcio dentro de uma estratégia patrimonial.<br><br>A partir disso, indicamos o caminho mais adequado para comprar, investir, alavancar patrimônio ou proteger o futuro da família. </p>
+        <a id="section5-btn" href="#">CONHEÇA NOSSO MÉTODO</a>
+      </div>
+      <div id="section5-image">
+        <img src="brand_assets/nosso-metodo-photo.webp" alt="Nosso Método">
+      </div>
+    </div>
+  </section>
+
+  <section id="section6">
+    <div id="section6-header">
+      <p id="section6-eyebrow">CASES</p>
+      <h2 id="section6-title">QUEM <em>CONSTRUIU RESULTADO</em> AQUI, TEM ALGO PARA CONTAR</h2>
+    </div>
+    <div id="section6-cards">
+      <div class="s6-card" data-video="s9F9ous3O30">
+        <img src="brand_assets/cases-card1.jpg" alt="Case 1">
+        <div class="s6-card-overlay"></div>
+        <div class="s6-card-play">
+          <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M25 50C11.1929 50 0 38.807 0 25C0 11.1929 11.1929 0 25 0C38.807 0 50 11.1929 50 25C50 38.807 38.807 50 25 50ZM21.5547 16.0365C21.3905 15.9269 21.1975 15.8685 21 15.8685C20.4477 15.8685 20 16.3162 20 16.8685V33.1315C20 33.329 20.0585 33.522 20.168 33.6862C20.4742 34.1457 21.0952 34.27 21.5547 33.9635L33.752 25.832C33.8618 25.7587 33.956 25.6645 34.0293 25.5548C34.3358 25.0952 34.2115 24.4743 33.752 24.168L21.5547 16.0365Z" fill="white"/></svg>
+        </div>
+      </div>
+      <div class="s6-card" data-video="s9F9ous3O30">
+        <img src="brand_assets/cases-card2.jpg" alt="Case 2">
+        <div class="s6-card-overlay"></div>
+        <div class="s6-card-play">
+          <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M25 50C11.1929 50 0 38.807 0 25C0 11.1929 11.1929 0 25 0C38.807 0 50 11.1929 50 25C50 38.807 38.807 50 25 50ZM21.5547 16.0365C21.3905 15.9269 21.1975 15.8685 21 15.8685C20.4477 15.8685 20 16.3162 20 16.8685V33.1315C20 33.329 20.0585 33.522 20.168 33.6862C20.4742 34.1457 21.0952 34.27 21.5547 33.9635L33.752 25.832C33.8618 25.7587 33.956 25.6645 34.0293 25.5548C34.3358 25.0952 34.2115 24.4743 33.752 24.168L21.5547 16.0365Z" fill="white"/></svg>
+        </div>
+      </div>
+      <div class="s6-card" data-video="s9F9ous3O30">
+        <img src="brand_assets/cases-card3.jpg" alt="Case 3">
+        <div class="s6-card-overlay"></div>
+        <div class="s6-card-play">
+          <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M25 50C11.1929 50 0 38.807 0 25C0 11.1929 11.1929 0 25 0C38.807 0 50 11.1929 50 25C50 38.807 38.807 50 25 50ZM21.5547 16.0365C21.3905 15.9269 21.1975 15.8685 21 15.8685C20.4477 15.8685 20 16.3162 20 16.8685V33.1315C20 33.329 20.0585 33.522 20.168 33.6862C20.4742 34.1457 21.0952 34.27 21.5547 33.9635L33.752 25.832C33.8618 25.7587 33.956 25.6645 34.0293 25.5548C34.3358 25.0952 34.2115 24.4743 33.752 24.168L21.5547 16.0365Z" fill="white"/></svg>
+        </div>
+      </div>
+      <div class="s6-card" data-video="s9F9ous3O30">
+        <img src="brand_assets/cases-card4.jpg" alt="Case 4">
+        <div class="s6-card-overlay"></div>
+        <div class="s6-card-play">
+          <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M25 50C11.1929 50 0 38.807 0 25C0 11.1929 11.1929 0 25 0C38.807 0 50 11.1929 50 25C50 38.807 38.807 50 25 50ZM21.5547 16.0365C21.3905 15.9269 21.1975 15.8685 21 15.8685C20.4477 15.8685 20 16.3162 20 16.8685V33.1315C20 33.329 20.0585 33.522 20.168 33.6862C20.4742 34.1457 21.0952 34.27 21.5547 33.9635L33.752 25.832C33.8618 25.7587 33.956 25.6645 34.0293 25.5548C34.3358 25.0952 34.2115 24.4743 33.752 24.168L21.5547 16.0365Z" fill="white"/></svg>
+        </div>
+      </div>
+    </div>
+    <div id="section6-footer">
+      <a id="section6-btn" href="#">VER MAIS CASES DE SUCESSO</a>
+    </div>
+  </section>
+
+
+  <section id="section7">
+    <div id="section7-header">
+      <p id="section7-eyebrow">INDEPENDÊNCIA ESTRATÉGICA</p>
+      <h2 id="section7-title">O INVESTIDOR VEM ANTES DA ADMINISTRADORA</h2>
+      <p id="section7-body">Trabalhamos com 10 das maiores e mais sólidas administradoras do Brasil para estruturar estratégias alinhadas ao perfil e aos objetivos de cada investidor. <strong>Nosso compromisso não é com uma administradora, é com sua estratégia.</strong></p>
+    </div>
+    <div id="section7-logos">
+      <div class="s7-logo-row">
+        <img class="s7-logo" src="brand_assets/logo-admin-1.webp" alt="Administradora 1">
+        <img class="s7-logo" src="brand_assets/logo-admin-2.webp" alt="Administradora 2">
+        <img class="s7-logo" src="brand_assets/logo-admin-3.webp" alt="Administradora 3">
+        <img class="s7-logo" src="brand_assets/logo-admin-4.webp" alt="Administradora 4">
+        <img class="s7-logo" src="brand_assets/logo-admin-5.webp" alt="Administradora 5">
+      </div>
+      <div class="s7-logo-row">
+        <img class="s7-logo" src="brand_assets/logo-admin-6.webp" alt="Administradora 6">
+        <img class="s7-logo" src="brand_assets/logo-admin-7.webp" alt="Administradora 7">
+        <img class="s7-logo" src="brand_assets/logo-admin-8.webp" alt="Administradora 8">
+        <img class="s7-logo" src="brand_assets/logo-admin-9.webp" alt="Administradora 9">
+        <img class="s7-logo" src="brand_assets/logo-admin-10.webp" alt="Administradora 10">
+      </div>
+    </div>
+  </section>
+
+  <section id="section8">
+    <div id="section8-card">
+    <img id="section8-bg" src="brand_assets/eventos-bg.png" alt="Eventos Rieper Capital">
+    <div id="section8-overlay"></div>
+    <div id="section8-inner">
+      <div id="section8-left">
+        <p id="section8-eyebrow">EVENTOS</p>
+        <h2 id="section8-title">ENCONTROS EXCLUSIVOS PARA DECISÕES PATRIMONIAIS <em>MAIS INTELIGENTES</em></h2>
+      </div>
+      <div id="section8-right">
+        <p id="section8-body">Eventos para investidores, empresários e famílias ampliarem repertório, criarem conexões e tomarem decisões patrimoniais mais seguras.</p>
+        <a href="#" id="section8-cta">CONHEÇA OS EVENTOS</a>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section id="section9">
+    <img id="section9-map" src="brand_assets/mapa-mundo.svg" alt="">
+    <div id="section9-content">
+      <p id="section9-eyebrow">BRASILEIROS NO EXTERIOR</p>
+      <h2 id="section9-title">CONSTRUA <em>PATRIMÔNIO NO BRASIL</em>, MESMO MORANDO FORA</h2>
+      <p id="section9-body">Atendemos brasileiros que vivem no exterior e desejam investir, comprar imóveis e estruturar patrimônio no Brasil com estratégia, segurança e acompanhamento próximo.</p>
+      <a href="#" id="section9-cta">FALE COM UM ESPECIALISTA</a>
+    </div>
+  </section>
+
+  <section id="section10">
+    <h2 id="section10-title">SE O SEU OBJETIVO É <strong>CONSTRUIR PATRIMÔNIO</strong>, O PRÓXIMO PASSO COMEÇA AQUI NA RIEPER CAPITAL.</h2>
+    <a href="#" id="section10-cta">CLIQUE AQUI PARA CONVERSAR CONOSCO</a>
+  </section>
+
+  <footer id="footer">
+    <div id="footer-logo">
+      <img src="brand_assets/logo.svg" alt="Rieper Capital">
+    </div>
+    <nav id="footer-nav">
+      <a href="#">Início</a>
+      <a href="#">Sobre nós</a>
+      <a href="#">Nosso Método</a>
+      <a href="#">Cases</a>
+      <a href="#">Eventos</a>
+    </nav>
+    <div id="footer-contact">
+      <div class="footer-contact-item">
+        <div class="footer-contact-icon"><img src="brand_assets/icon-location.svg" alt=""></div>
+        <span class="footer-contact-text">R. Carlos Koepp, 27 - Saguaçu, Joinville - SC, 89221-120</span>
+      </div>
+      <div class="footer-contact-item">
+        <div class="footer-contact-icon"><img src="brand_assets/icon-phone.svg" alt=""></div>
+        <a href="tel:+5547996246119" class="footer-contact-text">(47) 99624-6119</a>
+      </div>
+      <div class="footer-contact-item">
+        <div class="footer-contact-icon"><img src="brand_assets/icon-email.svg" alt=""></div>
+        <a href="mailto:contato@riepercapital.com" class="footer-contact-text">contato@riepercapital.com</a>
+      </div>
+    </div>
+    <div id="footer-social">
+      <a href="#" class="footer-social-icon"><img src="brand_assets/icon-instagram.svg" alt="Instagram"></a>
+      <a href="#" class="footer-social-icon"><img src="brand_assets/icon-facebook.svg" alt="Facebook"></a>
+      <a href="#" class="footer-social-icon"><img src="brand_assets/icon-linkedin.svg" alt="LinkedIn"></a>
+    </div>
+  </footer>
+
+  <script>
+    /* ── carrossel de países — elementos fixos, sem reflow ── */
+    (function() {
+      const countries = [
+        'Brasil', 'Estados Unidos', 'Finlândia', 'Itália',
+        'Portugal', 'França', 'Espanha', 'Alemanha',
+        'Bélgica', 'Holanda', 'Japão', 'Austrália',
+        'Dinamarca', 'Luxemburgo', 'Inglaterra'
+      ];
+      const PER_SLIDE = 4, INTERVAL = 2800, STAGGER = 80;
+      const track = document.getElementById('countries-track');
+
+      // Cria 4 elementos fixos uma única vez
+      const items = Array.from({ length: PER_SLIDE }, () => {
+        const el = document.createElement('div');
+        el.className = 'country-name';
+        track.appendChild(el);
+        return el;
+      });
+
+      const EXIT_MS = 320;
+      let current = 0;
+
+      function showSlide(startIndex) {
+        // Fase 1: exit
+        items.forEach(el => {
+          el.getAnimations().forEach(a => a.cancel());
+          el.style.animationDelay = '0ms';
+          el.classList.remove('entering');
+          el.classList.add('exiting');
+        });
+
+        // Fase 2: após exit terminar, troca e entra
+        setTimeout(() => {
+          items.forEach((el, i) => {
+            el.getAnimations().forEach(a => a.cancel());
+            el.classList.remove('exiting');
+            el.textContent = countries[(startIndex + i) % countries.length];
+            el.style.animationDelay = (i * STAGGER) + 'ms';
+            el.classList.add('entering');
+          });
+        }, EXIT_MS);
+      }
+
+      // Inicializa: entra direto sem exit
+      items.forEach((el, i) => {
+        el.textContent = countries[i % countries.length];
+        el.style.animationDelay = (i * STAGGER) + 'ms';
+        el.classList.add('entering');
+      });
+
+      let ticker = null;
+      const section3 = document.getElementById('section3');
+      const obs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          if (!ticker) ticker = setInterval(() => {
+            current = (current + PER_SLIDE) % countries.length;
+            showSlide(current);
+          }, INTERVAL);
+        } else {
+          clearInterval(ticker);
+          ticker = null;
+        }
+      }, { threshold: 0.1 });
+      obs.observe(section3);
+    })();
+
+    /* ── carrossel seção 4 — loop infinito ── */
+    (function() {
+      const track = document.getElementById('section4-track');
+      const prevBtn = document.getElementById('s4-prev');
+      const nextBtn = document.getElementById('s4-next');
+
+      // Clona todos os cards antes e depois para loop infinito
+      const origCards = Array.from(track.querySelectorAll('.s4-card'));
+      const TOTAL = origCards.length;
+
+      origCards.forEach(c => track.appendChild(c.cloneNode(true)));
+      origCards.slice().reverse().forEach(c => track.insertBefore(c.cloneNode(true), track.firstChild));
+
+      // Agora o track tem: [clones-fim] [originais] [clones-início]
+      // Índice do primeiro original = TOTAL
+      let current = TOTAL; // começa no primeiro original
+
+      function isMobile() { return window.innerWidth <= 768; }
+
+      function getInitialOffset() {
+        // O primeiro card visível sangra 128px para dentro do padding lateral
+        const lateralPad = Math.max(0, (window.innerWidth - 1360) / 2);
+        return Math.max(0, lateralPad - 128);
+      }
+
+      function setMobileCardSize() {
+        if (!isMobile()) return;
+        const w = document.getElementById('section4-track-wrap').clientWidth;
+        track.querySelectorAll('.s4-card').forEach(c => c.style.width = w + 'px');
+      }
+
+      function getCardWidth() {
+        if (isMobile()) return document.getElementById('section4-track-wrap').clientWidth;
+        return track.querySelectorAll('.s4-card')[0].offsetWidth + 30;
+      }
+
+      function goTo(idx, animate) {
+        current = idx;
+        const offset = (isMobile() ? 0 : getInitialOffset()) + current * getCardWidth();
+        if (!animate) track.style.transition = 'none';
+        track.style.transform = `translateX(-${offset}px)`;
+        if (!animate) {
+          track.offsetHeight;
+          track.style.transition = '';
+        }
+      }
+
+      track.addEventListener('transitionend', () => {
+        if (current < TOTAL) goTo(current + TOTAL, false);
+        else if (current >= TOTAL * 2) goTo(current - TOTAL, false);
+      });
+
+      prevBtn.addEventListener('click', () => goTo(current - 1, true));
+      nextBtn.addEventListener('click', () => goTo(current + 1, true));
+
+      let startX = 0, isDragging = false;
+      track.addEventListener('pointerdown', e => { startX = e.clientX; isDragging = true; track.setPointerCapture(e.pointerId); });
+      track.addEventListener('pointermove', e => { if (!isDragging) return; });
+      track.addEventListener('pointerup', e => {
+        if (!isDragging) return;
+        isDragging = false;
+        const diff = startX - e.clientX;
+        if (diff > 60) goTo(current + 1, true);
+        else if (diff < -60) goTo(current - 1, true);
+      });
+
+      setMobileCardSize();
+      goTo(current, false);
+
+      window.addEventListener('resize', () => { setMobileCardSize(); goTo(current, false); });
+    })();
+
+    /* ── Navbar scroll ── */
+    (function() {
+      var navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 20) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      }, { passive: true });
+    })();
+
+    /* ── Modal de vídeo (YouTube embed) ── */
+    (function() {
+      document.querySelectorAll('.s6-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+          if (card.querySelector('iframe')) return;
+          var videoId = card.getAttribute('data-video');
+          var iframe = document.createElement('iframe');
+          iframe.src = 'https://www.youtube.com/embed/' + videoId + '?rel=0&playsinline=1&autoplay=1';
+          iframe.allowFullscreen = true;
+          iframe.allow = 'autoplay; encrypted-media';
+          card.appendChild(iframe);
+        });
+      });
+    })();
+
+    /* ── Menu hambúrguer ── */
+    (function() {
+      const btn = document.getElementById('hamburger');
+      const menu = document.getElementById('mobile-menu');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', function() {
+        const open = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
+        menu.setAttribute('aria-hidden', !open);
+      });
+      menu.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          menu.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          menu.setAttribute('aria-hidden', 'true');
+        });
+      });
+    })();
+
+    /* ── COBE globe (ESM via dynamic import) ── */
+  </script>
+
+  <script type="module">
+    import createGlobe from '/cobe.min.js';
+    const SIZE = 1080;
+    const canvas = document.getElementById('cobe-canvas');
+    canvas.width  = SIZE * 2;
+    canvas.height = SIZE * 2;
+    canvas.style.width  = SIZE + 'px';
+    canvas.style.height = SIZE + 'px';
+
+    let phi = 0;
+    createGlobe(canvas, {
+      devicePixelRatio: 2,
+      width:  SIZE * 2,
+      height: SIZE * 2,
+      phi: 0,
+      theta: 0,
+      dark: 1,
+      diffuse: 1.8,
+      mapSamples: 8000,
+      mapBrightness: 11,
+      baseColor:   [0.12, 0.10, 0.06],
+      markerColor: [0.773, 0.627, 0.349],
+      glowColor:   [0.7, 0.55, 0.28],
+      markers: [],
+      onRender: (state) => {
+        state.phi = phi;
+        phi += 0.003;
+      }
+    });
+  </script>
+
+</body>
+</html>

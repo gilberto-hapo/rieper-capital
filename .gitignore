@@ -1,0 +1,14 @@
+node_modules/
+.claude/
+*.png
+*.pdf
+compare*.png
+figma*.png
+frame*.png
+temporary screenshots/
+assets/
+extract_pdf.js
+readpdf.js
+screenshot.mjs
+compare.mjs
+referencias/
